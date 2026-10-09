@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MCP Security Gateway - Technical Seminar</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="container header-inner">
+      <a href="#" class="logo">🛡 MCP Gateway</a>
+      <nav>
+        <a href="#background">Background</a>
+        <a href="#problem">Problem</a>
+        <a href="#progressive">Progressive Disclosure</a>
+        <a href="#architecture">Architecture</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <div class="eyebrow">Technical Seminar Project</div>
+        <h1>MCP Security Gateway</h1>
+        <p>
+          A research-oriented gateway prototype that protects AI agents from untrusted tools,
+          prompt injection attacks, and context bloat through layered security checks and progressive disclosure.
+        </p>
+      </div>
+      <div class="hero-visual">
+        <div class="gateway-box">
+          <div class="icon-box">🛡</div>
+          <h3>Secure MCP Gateway</h3>
+          <p>Layered defense between agent and external tools</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="blue-section">MCP Security Model</div>
+
+  <!-- BACKGROUND SECTION -->
+  <section id="background" class="white-section">
+    <div class="container">
+      <div class="section-label">Background</div>
+      <h2>MCP — and why the naive setup breaks down</h2>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-icon purple-icon">◈</div>
+            <h3>What is MCP?</h3>
+          </div>
+          <p>
+            The Model Context Protocol is an open standard that lets AI agents discover and call
+            external tools — mail, chat, code, files — over one common interface.
+          </p>
+          <p class="subtext">A client connects to servers such as:</p>
+          <div class="chip-row">
+            <span class="chip">Gmail</span>
+            <span class="chip">Slack</span>
+            <span class="chip">GitHub</span>
+            <span class="chip">Drive</span>
+          </div>
+          <p class="subtext small">
+            Each server advertises its tools as JSON schemas, which the agent loads into its context window.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div class="card-icon blue-icon">⚡</div>
+            <h3>Why direct connection breaks down</h3>
+          </div>
+          <div class="risk-blocks">
+            <div class="risk-item">
+              <strong class="risk-blue">Linear context growth</strong>
+              <p>Every new server adds its full tool list upfront — cost grows with N servers × M tools.</p>
+            </div>
+            <div class="risk-item">
+              <strong class="risk-red">Attacker-controlled text</strong>
+              <p>Descriptions and results flow straight into the prompt — a classic injection channel.</p>
+            </div>
+            <div class="risk-item">
+              <strong class="risk-gold">No policy layer</strong>
+              <p>Nothing checks parameters or outputs between the agent's intent and the live API call.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dark-alert">
+        <span class="alert-dot"></span>
+        <span>
+          <strong>Solution:</strong> It answers both with one gateway — six meta-tools for a fixed context cost
+          and four security gates for defense in depth.
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <div class="blue-section">Progressive Disclosure</div>
+
+  <!-- PROGRESSIVE DISCLOSURE SECTION -->
+  <section id="progressive" class="white-section">
+    <div class="container">
+      <div class="section-label">Proposed System</div>
+      <h2>Pay for detail only when the task demands it</h2>
+
+      <div class="progressive-section">
+        <div class="flow-steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-icon">🔍</div>
+            <h4>discover</h4>
+            <p>Find candidate servers for the task; response depth adapts to server size.</p>
+          </div>
+
+          <div class="arrow">→</div>
+
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-icon">≡</div>
+            <h4>get_category_actions</h4>
+            <p>Open one category; see action names only — no schemas yet.</p>
+          </div>
+
+          <div class="arrow">→</div>
+
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-icon">▣</div>
+            <h4>get_action_details</h4>
+            <p>Load the full parameter schema for the one chosen action.</p>
+          </div>
+
+          <div class="arrow">→</div>
+
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-icon">▶</div>
+            <h4>execute_action</h4>
+            <p>Run the call; only whitelisted output fields come back.</p>
+          </div>
+        </div>
+
+        <h4 class="tier-title">discover tiers its response to server size</h4>
+        <div class="tier-boxes">
+          <div class="tier-box">categories_only<br><span>large servers</span></div>
+          <div class="tier-box">categories + actions<br><span>external tools</span></div>
+          <div class="tier-box">full_details<br><span>small servers</span></div>
+        </div>
+
+        <div class="gate-info">
+          <strong>Gate 3 (policy)</strong> vets parameters before step 4 runs, and <strong>Gate 4 (result scan)</strong> inspects what comes back — only clean, tagged results enter the agent's context.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="blue-section">System Architecture</div>
+
+  <!-- ARCHITECTURE SECTION -->
+  <section id="architecture" class="white-section">
+    <div class="container">
+      <div class="section-label">System Design</div>
+      <h2>One gateway between the agent and the world</h2>
+
+      <div class="arch-layout">
+        <div class="arch-flow">
+          <div class="arch-block arch-highlight">
+            <div class="arch-icon blue">🤖</div>
+            <span>AI agent (MCP client)</span>
+          </div>
+
+          <div class="arch-block arch-gate">
+            <div class="arch-icon red">1</div>
+            <span><strong>Gate 1 · Intent screening</strong> direct injection detection on the incoming request</span>
+          </div>
+
+          <div class="arch-block arch-highlight">
+            <div class="arch-icon blue">⚙</div>
+            <div>
+              <strong>UnifiedMCP server</strong> · six meta-tools, fixed context cost
+              <div class="arch-tools">
+                <div class="arch-tool">discover</div>
+                <div class="arch-tool">get_category_actions</div>
+                <div class="arch-tool">get_action_details</div>
+                <div class="arch-tool">execute_action</div>
+                <div class="arch-tool">search_documentation</div>
+                <div class="arch-tool">handle_auth_failure</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-block arch-gate">
+            <div class="arch-icon red">2</div>
+            <span><strong>Gate 2 · Catalog integrity</strong></span>
+          </div>
+
+          <div class="arch-block arch-gate">
+            <div class="arch-icon red">3</div>
+            <span><strong>Gate 3 · Policy gate</strong></span>
+          </div>
+
+          <div class="arch-block arch-gate">
+            <div class="arch-icon red">4</div>
+            <span><strong>Gate 4 · Result scanner</strong></span>
+          </div>
+
+          <div class="arch-block arch-highlight">
+            <div class="arch-icon blue">📚</div>
+            <span><strong>Tool catalog</strong> · untrusted external content lives here — off the agent's context</span>
+          </div>
+
+          <div class="arch-block">
+            <div class="arch-icon purple">🔐</div>
+            <span><strong>Downstream APIs</strong> · OAuth tokens held by the platform — never by the agent</span>
+          </div>
+        </div>
+
+        <div class="monitoring-box">
+          <div class="arch-icon gold">⌁</div>
+          <h4>Monitoring & audit</h4>
+          <p>• Tool-call logs — full request/response trail</p>
+          <p>• Sequence anomaly detection on call patterns</p>
+          <p>• Canary tokens that trip on exfiltration</p>
+          <p>• Real-time alerts as gates fire</p>
+          <p class="monitor-note">Runs beside the gateway — every key call is recorded.</p>
+        </div>
+      </div>
+
+      <div class="arch-note">
+        The system keeps a fixed catalog model, filters unsafe tool descriptions, validates outputs,
+        and enforces security gates before anything reaches the agent.
+      </div>
+    </div>
+  </section>
+
+  <div class="blue-section">Problem Statement</div>
+
+  <!-- PROBLEM SECTION -->
+  <section id="problem" class="white-section">
+    <div class="container">
+      <div class="section-label">Key Challenges</div>
+      <h2>Agents are drowning in tools they can't trust</h2>
+
+      <div class="two-col">
+        <div class="card context-card">
+          <div class="card-head">
+            <div class="card-icon purple-icon">◎</div>
+            <h3>Context bloat</h3>
+          </div>
+          <ul>
+            <li>Every connected server preloads all of its tool schemas into the agent's context</li>
+            <li>Dozens of servers × dozens of tools burn thousands of tokens before work even starts</li>
+            <li>A bloated context slows reasoning and degrades tool selection</li>
+          </ul>
+        </div>
+
+        <div class="card prompt-card">
+          <div class="card-head">
+            <div class="card-icon red-icon">⚠</div>
+            <h3>Prompt injection</h3>
+          </div>
+          <ul>
+            <li>Tool descriptions and API results are third-party, attacker-reachable content</li>
+            <li>A poisoned description or result can silently redirect the agent's behaviour</li>
+            <li>One hijacked call can leak mail, files, or credentials</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dark-alert">
+        <span class="alert-dot"></span>
+        <span>
+          <strong>Answer:</strong> It answers both with one gateway — six meta-tools for a fixed context cost
+          and four security gates for defense in depth.
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p class="footer-title">MCP Security Gateway</p>
+      <p class="footer-sub">Technical Seminar Project • Prototype Design & Research</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
